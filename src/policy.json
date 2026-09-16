@@ -1,0 +1,30 @@
+{
+  "conditions": {
+    "all": [
+      {
+        "fact": "intent",
+        "path": "$.action",
+        "operator": "in",
+        "value": ["transfer", "contract-call"]
+      },
+      {
+        "fact": "intent",
+        "path": "$.amount",
+        "operator": "lessThanInclusive",
+        "value": 100
+      },
+      {
+        "fact": "intent",
+        "path": "$.protocol",
+        "operator": "in",
+        "value": ["Superfluid", "Base"]
+      }
+    ]
+  },
+  "event": {
+    "type": "APPROVED",
+    "params": {
+      "message": "Intent passed all policy gate conditions."
+    }
+  }
+}

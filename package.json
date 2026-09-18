@@ -8,6 +8,7 @@
     "demo": "CUSTODIAN_MODE=mock tsx src/demo.ts",
     "demo:live": "CUSTODIAN_MODE=live tsx src/demo.ts",
     "demo:blocked": "CUSTODIAN_MODE=mock tsx src/demo-blocked.ts",
+    "dashboard": "open http://localhost:8080 && python3 -m http.server 8080 -d dashboard",
     "test": "vitest run",
     "test:watch": "vitest"
   },

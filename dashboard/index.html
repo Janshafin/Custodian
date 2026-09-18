@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CUSTODIAN</title>
+  <meta name="description" content="Multi-agent treasury swarm with KeeperHub execution boundary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Navigation Header -->
+    <header class="top-nav">
+      <div class="brand">
+        <div class="brand-icon"></div>
+        <span class="brand-name">Custodian</span>
+      </div>
+      <nav class="nav-links">
+        <button class="nav-item active" data-section="dashboard">Dashboard</button>
+        <button class="nav-item" data-section="pipeline">Pipeline</button>
+        <button class="nav-item" data-section="policy">Policy Gate</button>
+        <button class="nav-item" data-section="audit">Audit Ledger</button>
+      </nav>
+      <!-- CTA / Hamburger equivalent -->
+      <div class="nav-right">
+        <span class="meta-text">MOCK MODE</span>
+        <span class="menu-mark" aria-hidden="true"><i></i><i></i></span>
+      </div>
+    </header>
+
+    <!-- Main Content Sections -->
+    <main class="main-content">
+      
+      <!-- DASHBOARD SECTION -->
+      <section class="section active" id="section-dashboard">
+        <!-- Hero / Display text -->
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Autonomous treasury infrastructure</p>
+            <h1 class="display-text">Treasury<br>Swarm</h1>
+            <p class="body-lead">Autonomous multi-agent execution pipeline evaluating intents against deterministic on-chain policy bounds.</p>
+            <button class="btn-primary" id="runPipelineBtn">Run Pipeline <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="hero-orb" aria-hidden="true">
+            <canvas id="liquidSphere" class="liquid-sphere"></canvas>
+            <div class="orb-fallback"></div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2 class="heading-lg">Metrics</h2>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card" id="stat-executed">
+            <span class="stat-label">Executed</span>
+            <span class="stat-value" id="statExecuted">0</span>
+          </div>
+          <div class="stat-card" id="stat-blocked">
+            <span class="stat-label">Blocked</span>
+            <span class="stat-value" id="statBlocked">0</span>
+          </div>
+          <div class="stat-card" id="stat-escalated">
+            <span class="stat-label">Escalated</span>
+            <span class="stat-value" id="statEscalated">0</span>
+          </div>
+          <div class="stat-card" id="stat-velocity">
+            <span class="stat-label">Daily Velocity</span>
+            <span class="stat-value"><span id="statVelocity">0.000</span> / 0.02 ETH</span>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Pipeline Visualizer -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="heading-sm" style="margin:0;">Flow</h2>
+              <span class="meta-text" id="pipelineStatus">Idle</span>
+            </div>
+            <div class="pipeline-visualizer" id="pipelineViz">
+              <div class="pipeline-stage" id="stage-signal">
+                <div class="stage-circle">S</div>
+                <span class="stage-label">Signal</span>
+              </div>
+              <div class="pipeline-connector"></div>
+              <div class="pipeline-stage" id="stage-strategist">
+                <div class="stage-circle">T</div>
+                <span class="stage-label">Strategist</span>
+              </div>
+              <div class="pipeline-connector"></div>
+              <div class="pipeline-stage" id="stage-policy">
+                <div class="stage-circle">P</div>
+                <span class="stage-label">Policy</span>
+              </div>
+              <div class="pipeline-connector"></div>
+              <div class="pipeline-stage" id="stage-execution">
+                <div class="stage-circle">E</div>
+                <span class="stage-label">Execution</span>
+              </div>
+              <div class="pipeline-connector"></div>
+              <div class="pipeline-stage" id="stage-audit">
+                <div class="stage-circle">A</div>
+                <span class="stage-label">Audit</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity List -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="heading-sm" style="margin:0;">Activity</h2>
+              <button class="btn-secondary" id="clearActivity">Clear</button>
+            </div>
+            <div class="activity-list" id="activityList">
+              <div class="empty-state">
+                <p>No pipeline runs yet.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PIPELINE SECTION -->
+      <section class="section" id="section-pipeline">
+        <div class="section-header">
+          <h1 class="display-text">Pipeline</h1>
+          <p class="body-lead">Create and execute intents through the multi-agent pipeline. Configure parameters and watch the agents evaluate in real-time.</p>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Intent Builder -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="heading-sm" style="margin:0;">Intent Builder</h2>
+            </div>
+            <form class="intent-form" id="intentForm">
+              <div class="form-group">
+                <label for="intentAction">Action</label>
+                <select id="intentAction">
+                  <option value="transfer">Transfer</option>
+                  <option value="contract-call">Contract Call</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="intentAmount">Amount</label>
+                  <input type="number" id="intentAmount" value="0.001" step="0.001" min="0">
+                </div>
+                <div class="form-group">
+                  <label for="intentToken">Token</label>
+                  <select id="intentToken">
+                    <option value="ETH">ETH</option>
+                    <option value="USDC">USDC</option>
+                    <option value="SHIB">SHIB</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="intentProtocol">Protocol</label>
+                <select id="intentProtocol">
+                  <option value="Ethereum">Ethereum</option>
+                  <option value="Superfluid">Superfluid</option>
+                  <option value="UnknownDEX">UnknownDEX</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="intentRecipient">Recipient</label>
+                <input type="text" id="intentRecipient" value="0x0000000000000000000000000000000000000001" placeholder="0x...">
+              </div>
+              <div class="form-group">
+                <label for="intentConfidence">Confidence: <span id="confidenceValue" style="color:var(--color-frost);">0.95</span></label>
+                <input type="range" id="intentConfidence" min="0" max="1" step="0.05" value="0.95">
+              </div>
+              <div class="form-group">
+                <label for="intentRationale">Rationale</label>
+                <textarea id="intentRationale" rows="2" placeholder="Why is this intent being proposed?">Manual pipeline test via dashboard</textarea>
+              </div>
+              <button type="submit" class="btn-primary btn-full">Execute Intent</button>
+            </form>
+          </div>
+
+          <!-- Pipeline Output -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="heading-sm" style="margin:0;">Output</h2>
+              <button class="btn-secondary" id="clearOutput">Clear</button>
+            </div>
+            <div class="terminal" id="pipelineOutput">
+              <div class="terminal-line terminal-dim">Waiting for intent...</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- POLICY SECTION -->
+      <section class="section" id="section-policy">
+        <div class="section-header">
+          <h1 class="display-text">Policy</h1>
+          <p class="body-lead">The deterministic rules engine that stands between AI reasoning and on-chain execution. Every intent must pass all checks or be rejected.</p>
+        </div>
+
+        <div class="policy-rules-grid">
+          <div class="rule-card" id="rule-amount">
+            <span class="rule-name">Amount Cap</span>
+            <p class="rule-desc">Per-transaction amount must not exceed 0.01 ETH</p>
+            <div class="rule-meter"><div class="rule-meter-fill" id="amountMeter"></div></div>
+            <span class="rule-status" id="amountStatus">—</span>
+          </div>
+
+          <div class="rule-card" id="rule-velocity">
+            <span class="rule-name">Daily Velocity</span>
+            <p class="rule-desc">Cumulative daily spend must stay under 0.02 ETH</p>
+            <div class="rule-meter"><div class="rule-meter-fill" id="velocityMeter"></div></div>
+            <span class="rule-status" id="velocityStatus">—</span>
+          </div>
+
+          <div class="rule-card" id="rule-protocol">
+            <span class="rule-name">Protocol Allowlist</span>
+            <p class="rule-desc">Only Superfluid and Ethereum are permitted</p>
+            <span class="rule-status" id="protocolStatus">—</span>
+          </div>
+
+          <div class="rule-card" id="rule-token">
+            <span class="rule-name">Token Allowlist</span>
+            <p class="rule-desc">Only ETH transfers are allowed</p>
+            <span class="rule-status" id="tokenStatus">—</span>
+          </div>
+
+          <div class="rule-card" id="rule-confidence">
+            <span class="rule-name">Confidence</span>
+            <p class="rule-desc">Min 0.7 to proceed, 0.9+ for auto-approval</p>
+            <div class="rule-meter"><div class="rule-meter-fill" id="confidenceMeter"></div></div>
+            <span class="rule-status" id="confidenceStatus">—</span>
+          </div>
+
+          <div class="rule-card" id="rule-cooldown">
+            <span class="rule-name">Cooldown</span>
+            <p class="rule-desc">Minimum 10 seconds between executions</p>
+            <div class="rule-meter"><div class="rule-meter-fill" id="cooldownMeter"></div></div>
+            <span class="rule-status" id="cooldownStatus">—</span>
+          </div>
+        </div>
+
+        <!-- Adversarial test panel -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="heading-sm" style="margin:0;">Adversarial Tests</h2>
+          </div>
+          <p class="body-lead" style="margin-top:0;">Run pre-configured malicious intents to demonstrate that the Policy Agent blocks unauthorized actions before they ever reach KeeperHub.</p>
+          <div class="adversarial-tests">
+            <button class="test-btn" data-test="oversized">
+              <span class="test-name">Oversized Amount</span>
+              <span class="test-desc">5 ETH (500x over cap)</span>
+            </button>
+            <button class="test-btn" data-test="bad-protocol">
+              <span class="test-name">Bad Protocol</span>
+              <span class="test-desc">UnknownDEX (not allowlisted)</span>
+            </button>
+            <button class="test-btn" data-test="bad-token">
+              <span class="test-name">Bad Token</span>
+              <span class="test-desc">SHIB (not allowlisted)</span>
+            </button>
+            <button class="test-btn" data-test="low-confidence">
+              <span class="test-name">Low Confidence</span>
+              <span class="test-desc">0.5 confidence (below 0.7)</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- AUDIT SECTION -->
+      <section class="section" id="section-audit">
+        <div class="section-header">
+          <h1 class="display-text">Audit</h1>
+          <p class="body-lead">HMAC-SHA256 signed, append-only ledger of every pipeline stage. Every entry is cryptographically verified.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="heading-sm" style="margin:0;">Ledger Entries</h2>
+            <div style="display:flex; gap: 22px; align-items:center;">
+              <span class="meta-text" id="ledgerCount">0 entries</span>
+              <button class="btn-secondary" id="exportLedger">Export JSON</button>
+            </div>
+          </div>
+          <div class="ledger-table-wrapper">
+            <table class="ledger-table" id="ledgerTable">
+              <thead>
+                <tr>
+                  <th>HMAC</th>
+                  <th>Stage</th>
+                  <th>Intent ID</th>
+                  <th>Timestamp</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="ledgerBody">
+                <tr class="empty-row">
+                  <td colspan="5">
+                    <div class="empty-state">
+                      <p>No audit entries yet</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+  <script src="app.js"></script>
+</body>
+</html>

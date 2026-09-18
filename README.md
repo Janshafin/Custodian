@@ -86,6 +86,7 @@ npm run demo:live
 | `npm run demo` | Mock mode: full pipeline, prints mock tx hash |
 | `npm run demo:live` | Live mode: real KeeperHub API calls on Ethereum Sepolia |
 | `npm run demo:blocked` | Adversarial tests proving policy gate blocks unauthorized intents |
+| `npm run dashboard` | Opens the interactive dashboard UI at http://localhost:8080 |
 | `npm test` | Run all 19 unit/integration tests |
 
 ## Live Transaction Proof
@@ -113,7 +114,7 @@ We integrate with **Superfluid** — a token streaming protocol for continuous p
 | **Execution Agent** (KeeperHub REST) | ✅ Live on Ethereum Sepolia testnet (with API key) |
 | **Signal Agent** (Superfluid data) | 🚧 Checkpoint 3 — reads real on-chain data |
 | **Strategist Agent** (LLM confidence) | 🚧 Checkpoint 4 — uses LLM for rationale |
-| **Dashboard** | 🚧 Checkpoint 4 — React UI |
+| **Dashboard** | ✅ Interactive glassmorphism UI — pipeline runner, policy visualizer, audit ledger |
 | **Mock mode** | ✅ Fully functional — same code path, zero secrets |
 
 ## Test Coverage
@@ -145,6 +146,10 @@ src/
 ├── pipeline.ts        # Orchestrates all agents in sequence
 ├── demo.ts            # npm run demo / npm run demo:live
 └── demo-blocked.ts    # npm run demo:blocked (adversarial tests)
+dashboard/
+├── index.html         # Dashboard UI — single-page app
+├── styles.css         # Glassmorphism light theme design system
+└── app.js             # Pipeline simulation, policy engine, audit ledger
 tests/
 ├── policy-agent.test.ts
 ├── pipeline.test.ts

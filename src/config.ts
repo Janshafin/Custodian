@@ -30,7 +30,7 @@ export function loadConfig(): CustodianConfig {
       keeperhubBaseUrl: process.env.KEEPERHUB_BASE_URL || 'https://app.keeperhub.com/api',
       keeperhubWalletAddress: walletAddress,
       chainId: '11155111',
-      networkName: 'ethereum-sepolia',
+      networkName: 'sepolia',
       blockExplorerUrl: 'https://sepolia.etherscan.io',
     };
   }
@@ -42,7 +42,7 @@ export function loadConfig(): CustodianConfig {
     keeperhubBaseUrl: 'http://localhost:0', // never actually called
     keeperhubWalletAddress: '0x0000000000000000000000000000000000000001',
     chainId: '11155111',
-    networkName: 'ethereum-sepolia',
+    networkName: 'sepolia',
     blockExplorerUrl: 'https://sepolia.etherscan.io',
   };
 }
